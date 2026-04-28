@@ -55,7 +55,7 @@ install.packages("remotes")
 remotes::install_github("YuriIriarte/CSB")
 ```
 
-### Option 2: Install from Zenodo (archived release)
+### Option 2: Install from Zenodo
 
 Download the latest archived release:
 
