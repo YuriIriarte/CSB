@@ -5,7 +5,7 @@
 
 ## Overview
 
-**CSB** is an R package for modeling bounded data on the unit interval \((0,1)\) using the **Contracted Symmetric Beta (CSB)** distribution.
+**CSB** is an R package for modeling bounded data on the unit interval $(0,1)$ using the **Contracted Symmetric Beta (CSB)** distribution.
 
 The package provides tools for:
 
