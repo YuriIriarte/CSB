@@ -30,18 +30,18 @@ The CSB model is a flexible bounded distribution obtained through a random contr
 Let
 
 $$
-T = X\,U^{-1/q},
+T = \frac{X{U^{1/q}},
 $$
 
 where:
 
 - $X \sim \text{Beta}(\alpha,\alpha)$
-- \(U \sim \text{Uniform}(1,2^q)\)
-- \(\alpha > 0,\; q > 0\)
+- $U \sim \text{Uniform}(1,2^q)$
+- $\alpha > 0,\; q > 0$
 
-Then \(T \in (0,1)\) follows the Contracted Symmetric Beta distribution.
+Then $T \in (0,1)$ follows the Contracted Symmetric Beta distribution.
 
-This construction introduces an additional shape parameter \(q\), controlling the contraction intensity and generating a wide variety of bounded densities.
+This construction introduces an additional shape parameter $q$, controlling the contraction intensity and generating a wide variety of bounded densities.
 
 ---
 
