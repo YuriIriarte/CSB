@@ -1,3 +1,12 @@
+# CSB 0.1.2
+
+## Improvements
+- Added CITATION file for automatic citation() support.
+- Minor documentation improvements.
+
+
+
+
 \# CSB 0.1.0
 
 
