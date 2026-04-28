@@ -34,4 +34,4 @@ The CSB model is a flexible bounded distribution obtained through a random contr
 ### From local source
 
 ```r
-install.packages("CSB_0.1.0.tar.gz", repos = NULL, type = "source")
+remotes::install_github("YurIriarte/CSB")
