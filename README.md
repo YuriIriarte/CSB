@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19839765.svg)](https://doi.org/10.5281/zenodo.19839765)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)
 ![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
 
