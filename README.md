@@ -1,12 +1,6 @@
+# CSB <img src="man/figures/logo.png" align="right" height="120"/>
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19839765.svg)](https://doi.org/10.5281/zenodo.19839765)
-![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)
-![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)
-
-# CSB 
-
-<!-- badges: start -->
-<!-- Add badges later: CRAN, R-CMD-check, DOI, etc. -->
-<!-- badges: end -->
 
 ## Overview
 
@@ -23,7 +17,7 @@ The package provides tools for:
   - Beta distribution
   - Kumaraswamy distribution
 - Bootstrap goodness-of-fit procedures
-- Reproducible workflows for simulation and applications
+- Reproducible workflows for simulations and applications
 
 The CSB model is a flexible bounded distribution obtained through a random contraction mechanism applied to a symmetric beta baseline.
 
@@ -31,7 +25,7 @@ The CSB model is a flexible bounded distribution obtained through a random contr
 
 ## Installation
 
-### From local source
+### From GitHub
 
 ```r
 remotes::install_github("YurIriarte/CSB")
