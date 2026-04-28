@@ -10,7 +10,7 @@
 
 The package provides tools for:
 
-- Density, distribution, quantile, and random generation
+- Density, distribution, and random generation
 - Closed-form moments and shape measures
 - Parameter estimation by:
   - Method of Moments
