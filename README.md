@@ -8,7 +8,7 @@
 
 The package provides tools for:
 
-- Density, distribution, quantile, and random generation
+- Density, distribution, and random generation
 - Closed-form moments and shape measures
 - Parameter estimation by:
   - Method of Moments
@@ -35,7 +35,8 @@ where:
 
 - $X \sim \text{Beta}(\alpha,\alpha)$
 - $U \sim \text{Uniform}(1,2^q)$
-- $\alpha > 0,\; q > 0$
+- $\alpha > 0$, $q > 0$
+- $X$ and $U$ are independent
 
 Then $T \in (0,1)$ follows the Contracted Symmetric Beta distribution.
 
