@@ -65,3 +65,19 @@ Then install locally in R:
 ```r
 install.packages("CSB_0.1.1.tar.gz", repos = NULL, type = "source")
 ```
+## Citation
+
+If you use **CSB** in academic research, methodological studies, teaching, or applied data analysis, please cite the package as follows:
+
+```text
+Iriarte, Y. A. (2026). CSB: R package for the Contracted Symmetric Beta distribution (Version 0.1.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.19839765
+
+@software{iriarte2026csb,
+  author    = {Yuri A. Iriarte},
+  title     = {CSB: R package for the Contracted Symmetric Beta distribution},
+  year      = {2026},
+  version   = {0.1.1},
+  publisher = {Zenodo},
+  doi       = {10.5281/zenodo.19839765},
+  url       = {https://doi.org/10.5281/zenodo.19839765}
+}
