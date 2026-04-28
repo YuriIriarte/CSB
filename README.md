@@ -28,7 +28,7 @@ The CSB model is a flexible bounded distribution obtained through a random contr
 Let
 
 $$
-T = \dfrac{X}{U^{1/q},
+T = X\,U^{-1/q},
 $$
 
 where:
