@@ -1,4 +1,4 @@
-# CSB <img src="man/figures/logo.png" align="right" height="120"/>
+# CSB 
 
 <!-- badges: start -->
 <!-- Add badges later: CRAN, R-CMD-check, DOI, etc. -->
