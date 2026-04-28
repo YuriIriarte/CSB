@@ -48,7 +48,23 @@ This construction introduces an additional shape parameter $q$, controlling the 
 
 ## Installation
 
-### From GitHub
+## Installation
+
+### Option 1: Install from GitHub (development version)
 
 ```r
+install.packages("remotes")
 remotes::install_github("YurIriarte/CSB")
+```
+
+### Option 2: Install from Zenodo (archived release)
+
+Download the latest source package from Zenodo:
+
+👉 https://doi.org/10.5281/zenodo.19839765
+
+Then install locally in R:
+
+```r
+install.packages("CSB_0.1.1.tar.gz", repos = NULL, type = "source")
+```
