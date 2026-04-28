@@ -48,8 +48,6 @@ This construction introduces an additional shape parameter $q$, controlling the 
 
 ## Installation
 
-## Installation
-
 ### Option 1: Install from GitHub (development version)
 
 ```r
