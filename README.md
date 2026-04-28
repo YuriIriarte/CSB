@@ -29,13 +29,13 @@ The CSB model is a flexible bounded distribution obtained through a random contr
 
 Let
 
-\[
+$$
 T = X\,U^{-1/q},
-\]
+$$
 
 where:
 
-- \(X \sim \text{Beta}(\alpha,\alpha)\)
+- $X \sim \text{Beta}(\alpha,\alpha)$
 - \(U \sim \text{Uniform}(1,2^q)\)
 - \(\alpha > 0,\; q > 0\)
 
