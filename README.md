@@ -40,9 +40,9 @@ where:
 - $q > 0$
 - $X$ and $U$ are independent
 
-Then \(T \in (0,1)\) follows the Contracted Symmetric Beta distribution.
+Then $T \in (0,1)$ follows the Contracted Symmetric Beta distribution.
 
-This construction introduces an additional shape parameter \(q\), controlling contraction intensity and generating a wide variety of bounded densities.
+This construction introduces an additional shape parameter $q$, controlling contraction intensity and generating a wide variety of bounded densities.
 
 ---
 
