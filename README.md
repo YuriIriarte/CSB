@@ -59,26 +59,26 @@ remotes::install_github("YuriIriarte/CSB")
 
 Download the latest archived release:
 
-👉 https://doi.org/10.5281/zenodo.19841010
+👉 https://doi.org/10.5281/zenodo.19992148
 
 Then install locally in R:
 
 ```r
-install.packages("CSB_0.1.2.tar.gz", repos = NULL, type = "source")
+install.packages("CSB_0.2.0.tar.gz", repos = NULL, type = "source")
 ```
 ## Citation
 
 If you use **CSB** in research, or applied data analysis, please cite:
 
 ```text
-Iriarte, Y. A. (2026). CSB: R package for the Contracted Symmetric Beta distribution (Version 0.1.2) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.19841010
+Iriarte, Y. A. (2026). CSB: R package for the Contracted Symmetric Beta distribution (Version 0.2.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.19992148
 
 @software{iriarte2026csb,
   author    = {Yuri A. Iriarte},
   title     = {CSB: R package for the Contracted Symmetric Beta distribution},
   year      = {2026},
-  version   = {0.1.2},
+  version   = {0.2.0},
   publisher = {Zenodo},
-  doi       = {10.5281/zenodo.19841010},
-  url       = {https://doi.org/10.5281/zenodo.19841010}
+  doi       = {10.5281/zenodo.19992148},
+  url       = {https://doi.org/10.5281/zenodo.19992148}
 }
