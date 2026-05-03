@@ -13,36 +13,38 @@
 #' @param eps Small positive constant used to avoid evaluating probabilities
 #' exactly at 0 or 1.
 #' @param verbose Logical. If \code{TRUE}, progress information is printed.
+#' @param suppress_warnings Logical. If \code{TRUE}, warnings generated during
+#' fitting and bootstrap refitting are suppressed. The default is \code{TRUE}.
 #'
 #' @return An object of class \code{"gofCSB_boot"}, which is a list containing:
 #' \itemize{
-#'   \item \code{par_hat}: maximum likelihood estimates of the CSB parameters.
+#'   \item \code{model}: fitted model name.
+#'   \item \code{n}: sample size.
+#'   \item \code{B}: requested number of bootstrap replicates.
+#'   \item \code{B_valid}: number of successful bootstrap replicates.
+#'   \item \code{seed}: random seed used.
+#'   \item \code{par_hat}: maximum likelihood estimates.
 #'   \item \code{logLik}: maximized log-likelihood.
 #'   \item \code{AIC}: Akaike information criterion.
 #'   \item \code{BIC}: Bayesian information criterion.
-#'   \item \code{AD}: list containing the Anderson-Darling statistic and
-#'   bootstrap p-value.
-#'   \item \code{CvM}: list containing the Cramer-von Mises statistic and
-#'   bootstrap p-value.
-#'   \item \code{B}: number of bootstrap replicates.
-#'   \item \code{n}: sample size.
+#'   \item \code{AD}: Anderson-Darling statistic and bootstrap p-value.
+#'   \item \code{CvM}: Cramer-von Mises statistic and bootstrap p-value.
+#'   \item \code{bootstrap}: bootstrap statistics and convergence indicators.
+#'   \item \code{fit}: fitted object returned by \code{fitCSB_mle()}.
 #'   \item \code{call}: matched function call.
 #' }
 #'
 #' @details
 #' For each bootstrap replicate, a sample is generated from the fitted CSB
-#' distribution, the CSB model is refitted, and the goodness-of-fit statistics
-#' are recomputed. The p-values are obtained as the proportion of bootstrap
-#' statistics greater than or equal to the observed statistics.
-#'
-#' The printed summary of the returned object can be obtained using
-#' \code{summary()}.
+#' distribution, the model is refitted, and the goodness-of-fit statistics are
+#' recomputed. Bootstrap p-values are computed using the proportion of bootstrap
+#' statistics greater than or equal to the observed statistic.
 #'
 #' @examples
 #' set.seed(123)
 #' x <- rCSB(n = 200, shape = 2, q = 5)
 #'
-#' gof <- gofCSB_boot(x, B = 49, seed = 123)
+#' gof <- gofCSB_boot(x, B = 99, seed = 123)
 #' summary(gof)
 #'
 #' @export
@@ -50,7 +52,10 @@ gofCSB_boot <- function(x,
                         B = 999,
                         seed = 2026,
                         eps = 1e-10,
-                        verbose = TRUE) {
+                        verbose = TRUE,
+                        suppress_warnings = TRUE,
+                        method = "L-BFGS-B",
+                        multistart = FALSE) {
   
   x <- as.numeric(x)
   x <- x[is.finite(x)]
@@ -58,10 +63,16 @@ gofCSB_boot <- function(x,
   if (length(x) < 2L) {
     stop("x must have length >= 2.", call. = FALSE)
   }
+  
   if (any(x <= 0 | x >= 1)) {
     stop("All observations must lie in (0,1).", call. = FALSE)
   }
   
+  if (!is.numeric(B) || length(B) != 1L || B < 1) {
+    stop("B must be a positive integer.", call. = FALSE)
+  }
+  
+  B <- as.integer(B)
   n <- length(x)
   
   AD_stat <- function(x, par) {
@@ -85,14 +96,39 @@ gofCSB_boot <- function(x,
     1 / (12 * n) + sum((u - (2 * seq_len(n) - 1) / (2 * n))^2)
   }
   
-  fit <- fitCSB_mle(x)
+  fit_main <- function(z) {
+    if (isTRUE(suppress_warnings)) {
+      suppressWarnings(
+        fitCSB_mle(
+          z,
+          method = method,
+          multistart = multistart
+        )
+      )
+    } else {
+      fitCSB_mle(
+        z,
+        method = method,
+        multistart = multistart
+      )
+    }
+  }
+  
+  fit <- fit_main(x)
+  
+  if (is.null(fit$par) ||
+      any(!is.finite(fit$par)) ||
+      (!is.null(fit$convergence) && fit$convergence != 0)) {
+    stop("The CSB model could not be fitted to the original data.", call. = FALSE)
+  }
+  
   par_hat <- fit$par
   
   AD_obs  <- AD_stat(x, par_hat)
   CvM_obs <- CvM_stat(x, par_hat)
   
-  AD_boot  <- rep(NA_real_, B)
-  CvM_boot <- rep(NA_real_, B)
+  AD_boot   <- rep(NA_real_, B)
+  CvM_boot  <- rep(NA_real_, B)
   conv_boot <- rep(FALSE, B)
   
   set.seed(seed)
@@ -105,12 +141,15 @@ gofCSB_boot <- function(x,
       q = par_hat["q"]
     )
     
-    fit_b <- try(fitCSB_mle(xb), silent = TRUE)
+    fit_b <- try(
+      fit_main(xb),
+      silent = TRUE
+    )
     
     if (!inherits(fit_b, "try-error") &&
-        isTRUE(fit_b$success) &&
         !is.null(fit_b$par) &&
-        all(is.finite(fit_b$par))) {
+        all(is.finite(fit_b$par)) &&
+        (is.null(fit_b$convergence) || fit_b$convergence == 0)) {
       
       par_b <- fit_b$par
       
@@ -119,7 +158,7 @@ gofCSB_boot <- function(x,
       conv_boot[b] <- TRUE
     }
     
-    if (verbose && b %% 100 == 0) {
+    if (isTRUE(verbose) && (b %% 100 == 0L || b == B)) {
       cat("Bootstrap replication:", b, "of", B, "\n")
     }
   }
@@ -130,10 +169,10 @@ gofCSB_boot <- function(x,
   B_valid <- sum(conv_boot)
   
   if (B_valid == 0L) {
-    p_AD <- NA_real_
+    p_AD  <- NA_real_
     p_CvM <- NA_real_
   } else {
-    p_AD  <- (1 + sum(AD_boot_valid >= AD_obs)) / (B_valid + 1)
+    p_AD  <- (1 + sum(AD_boot_valid  >= AD_obs))  / (B_valid + 1)
     p_CvM <- (1 + sum(CvM_boot_valid >= CvM_obs)) / (B_valid + 1)
   }
   
@@ -143,6 +182,8 @@ gofCSB_boot <- function(x,
     B = B,
     B_valid = B_valid,
     seed = seed,
+    method = method,
+    multistart = multistart,
     par_hat = par_hat,
     logLik = fit$logLik,
     AIC = fit$AIC,
@@ -160,9 +201,10 @@ gofCSB_boot <- function(x,
       CvM = CvM_boot,
       convergence = conv_boot
     ),
-    fit = fit
+    fit = fit,
+    call = match.call()
   )
   
   class(out) <- c("gofCSB_boot", "list")
-  return(out)
+  out
 }

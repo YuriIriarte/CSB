@@ -1,0 +1,32 @@
+# R session files
+.Rhistory
+.RData
+.Ruserdata
+
+# RStudio
+.Rproj.user
+*.Rproj
+
+# Build files
+*.tar.gz
+*.zip
+
+# Check files
+*.Rcheck/
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.log
+
+# Compiled code
+*.o
+*.so
+*.dll
+*.exe
+
+# Misc
+.DS_Store

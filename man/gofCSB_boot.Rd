@@ -4,7 +4,16 @@
 \alias{gofCSB_boot}
 \title{Bootstrap Goodness-of-Fit Tests for the CSB Distribution}
 \usage{
-gofCSB_boot(x, B = 999, seed = 2026, eps = 1e-10, verbose = TRUE)
+gofCSB_boot(
+  x,
+  B = 999,
+  seed = 2026,
+  eps = 1e-10,
+  verbose = TRUE,
+  suppress_warnings = TRUE,
+  method = "L-BFGS-B",
+  multistart = FALSE
+)
 }
 \arguments{
 \item{x}{Numeric vector of observations in \eqn{(0,1)}.}
@@ -17,20 +26,26 @@ gofCSB_boot(x, B = 999, seed = 2026, eps = 1e-10, verbose = TRUE)
 exactly at 0 or 1.}
 
 \item{verbose}{Logical. If \code{TRUE}, progress information is printed.}
+
+\item{suppress_warnings}{Logical. If \code{TRUE}, warnings generated during
+fitting and bootstrap refitting are suppressed. The default is \code{TRUE}.}
 }
 \value{
 An object of class \code{"gofCSB_boot"}, which is a list containing:
 \itemize{
-\item \code{par_hat}: maximum likelihood estimates of the CSB parameters.
+\item \code{model}: fitted model name.
+\item \code{n}: sample size.
+\item \code{B}: requested number of bootstrap replicates.
+\item \code{B_valid}: number of successful bootstrap replicates.
+\item \code{seed}: random seed used.
+\item \code{par_hat}: maximum likelihood estimates.
 \item \code{logLik}: maximized log-likelihood.
 \item \code{AIC}: Akaike information criterion.
 \item \code{BIC}: Bayesian information criterion.
-\item \code{AD}: list containing the Anderson-Darling statistic and
-bootstrap p-value.
-\item \code{CvM}: list containing the Cramer-von Mises statistic and
-bootstrap p-value.
-\item \code{B}: number of bootstrap replicates.
-\item \code{n}: sample size.
+\item \code{AD}: Anderson-Darling statistic and bootstrap p-value.
+\item \code{CvM}: Cramer-von Mises statistic and bootstrap p-value.
+\item \code{bootstrap}: bootstrap statistics and convergence indicators.
+\item \code{fit}: fitted object returned by \code{fitCSB_mle()}.
 \item \code{call}: matched function call.
 }
 }
@@ -44,18 +59,15 @@ Anderson-Darling and Cramer-von Mises statistics, and obtains bootstrap
 p-values using a parametric bootstrap procedure.
 
 For each bootstrap replicate, a sample is generated from the fitted CSB
-distribution, the CSB model is refitted, and the goodness-of-fit statistics
-are recomputed. The p-values are obtained as the proportion of bootstrap
-statistics greater than or equal to the observed statistics.
-
-The printed summary of the returned object can be obtained using
-\code{summary()}.
+distribution, the model is refitted, and the goodness-of-fit statistics are
+recomputed. Bootstrap p-values are computed using the proportion of bootstrap
+statistics greater than or equal to the observed statistic.
 }
 \examples{
 set.seed(123)
 x <- rCSB(n = 200, shape = 2, q = 5)
 
-gof <- gofCSB_boot(x, B = 49, seed = 123)
+gof <- gofCSB_boot(x, B = 99, seed = 123)
 summary(gof)
 
 }

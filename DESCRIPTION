@@ -1,7 +1,7 @@
 Package: CSB
 Type: Package
 Title: Contracted Symmetric Beta Distribution for Unit Data
-Version: 0.1.2
+Version: 0.2.0
 Authors@R: 
     person(
         given = "Yuri A.",

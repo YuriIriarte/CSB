@@ -9,6 +9,10 @@
 #' model.
 #'
 #' @param x Numeric vector of observations in \eqn{(0,1)}.
+#' @param suppress_warnings Logical. If \code{TRUE}, warnings generated during
+#' model fitting are suppressed. The default is \code{TRUE}, which is convenient
+#' for clean output in applications and simulation studies. Use
+#' \code{suppress_warnings = FALSE} to inspect possible numerical warnings.
 #'
 #' @return An object of class \code{"compareCSBmodels"}, which is a list containing:
 #' \itemize{
@@ -34,8 +38,11 @@
 #' cmp <- compareCSBmodels(x)
 #' summary(cmp)
 #'
+#' # To inspect numerical warnings, use:
+#' cmp_check <- compareCSBmodels(x, suppress_warnings = FALSE)
+#'
 #' @export
-compareCSBmodels <- function(x) {
+compareCSBmodels <- function(x, suppress_warnings = TRUE) {
   
   x <- as.numeric(x)
   x <- x[is.finite(x)]
@@ -48,6 +55,14 @@ compareCSBmodels <- function(x) {
     stop("All observations must lie in (0,1).", call. = FALSE)
   }
   
+  fit_try <- function(expr) {
+    if (isTRUE(suppress_warnings)) {
+      suppressWarnings(try(expr, silent = TRUE))
+    } else {
+      try(expr, silent = TRUE)
+    }
+  }
+  
   n <- length(x)
   fits <- list()
   rows <- list()
@@ -56,7 +71,8 @@ compareCSBmodels <- function(x) {
   # ----------------------------------------------------------
   # Beta
   # ----------------------------------------------------------
-  fit_beta <- try(fitBeta_mle(x), silent = TRUE)
+  
+  fit_beta <- fit_try(fitBeta_mle(x))
   
   if (!inherits(fit_beta, "try-error")) {
     
@@ -79,7 +95,8 @@ compareCSBmodels <- function(x) {
   # ----------------------------------------------------------
   # Kumaraswamy
   # ----------------------------------------------------------
-  fit_kum <- try(fitKum_mle(x), silent = TRUE)
+  
+  fit_kum <- fit_try(fitKum_mle(x))
   
   if (!inherits(fit_kum, "try-error")) {
     
@@ -102,7 +119,8 @@ compareCSBmodels <- function(x) {
   # ----------------------------------------------------------
   # CSB
   # ----------------------------------------------------------
-  fit_csb <- try(fitCSB_mle(x), silent = TRUE)
+  
+  fit_csb <- fit_try(fitCSB_mle(x))
   
   if (!inherits(fit_csb, "try-error")) {
     
@@ -174,6 +192,7 @@ compareCSBmodels <- function(x) {
     n = n,
     best_AIC = comparison$Model[which.min(comparison$AIC)],
     best_BIC = comparison$Model[which.min(comparison$BIC)],
+    suppress_warnings = suppress_warnings,
     call = match.call()
   )
   

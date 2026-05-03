@@ -240,8 +240,12 @@ fitBeta_mle <- function(x,
     stop("All optimization attempts failed.", call. = FALSE)
   }
   
+  success_vec <- vapply(all_fits, function(z) isTRUE(z$success), logical(1))
+  loglik_vec  <- vapply(all_fits, function(z) z$logLik, numeric(1))
+  
   ord <- order(
-    vapply(all_fits, function(z) z$logLik, numeric(1)),
+    success_vec,
+    loglik_vec,
     decreasing = TRUE
   )
   
