@@ -1,3 +1,15 @@
+# ⚠️ Deprecated Repository
+
+This repository has been archived and is no longer maintained.
+
+It has been superseded by a new implementation of the
+Contracted-Beta (CB) distribution.
+
+👉 The updated package is available at:
+https://github.com/YuriIriarte/CB
+
+The current repository is preserved for reproducibility purposes.
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19841010.svg)](https://doi.org/10.5281/zenodo.19841010)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
